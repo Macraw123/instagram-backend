@@ -1,0 +1,7 @@
+CREATE TABLE replies
+(
+    id       BIGSERIAL PRIMARY KEY,
+    commentid BIGSERIAL REFERENCES comments (id) ON UPDATE CASCADE ON DELETE CASCADE NOT NULL,
+    useremail    VARCHAR(255) UNIQUE NOT NULL,
+    comment VARCHAR(255) NOT NULL
+)

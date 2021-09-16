@@ -1,0 +1,100 @@
+# GraphQL schema example
+#
+# https://gqlgen.com/getting-started/
+
+type User {
+    id:ID!
+    name:String!
+    username:String!
+    bio:String
+    email:String!
+    password:String!
+    #following:[User]
+    #follower:[User]
+    #posts: [Post]
+    #story:[Story]
+    verified:Boolean
+    google:Boolean
+    token:String
+}
+
+type Story{
+    id:ID!
+    userid:Int!
+    user:User
+    created:String
+    image:String
+    video:String
+}
+
+type Follower{
+    id:ID!
+    userid:Int!
+}
+
+type Post{
+    id:ID!
+    caption:String!
+    image:[Image]
+    video:String
+    like:Int
+    userid:Int!
+    comment:[Comment]
+    created:String!
+    user:User
+}
+
+type Save{
+    id:ID!
+    postid:Int!
+    useremail:String!
+}
+
+type Like{
+    id:ID!
+    postid:Int!
+    useremail:String!
+}
+
+type Image{
+    id:ID!
+    postid:Int!
+    imagelink:String!
+}
+
+type Comment{
+    id:ID!
+    comment:String!
+    userid:Int!
+    postid:Int!
+    reply:[Reply]
+    user:[User]
+
+}
+
+type Reply{
+    id:ID!
+    commentid:Int!
+    useremail:String!
+    comment:String!
+    user:User
+}
+
+type Message{
+    id:ID!
+    toemail:String!
+    fromemail:String!
+    created:String!
+    touser:User
+    fromuser:User
+    message:String!
+    image:String
+}
+
+type Query{
+    login(userEmail:String!, password: String!): User
+}
+
+type Mutation{
+    addUser(User)
+}
