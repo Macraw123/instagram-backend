@@ -2,6 +2,13 @@
 
 package model
 
+type Chatroom struct {
+	ID             string `json:"id"`
+	Owneremail     string `json:"owneremail"`
+	Recipientemail string `json:"recipientemail"`
+	User           *User  `json:"user"`
+}
+
 type Comment struct {
 	ID      string   `json:"id"`
 	Comment string   `json:"comment"`
@@ -11,9 +18,16 @@ type Comment struct {
 	User    []*User  `json:"user"`
 }
 
+type Commentlike struct {
+	ID        string `json:"id"`
+	Commentid int    `json:"commentid"`
+	Useremail string `json:"useremail"`
+}
+
 type Follower struct {
-	ID     string `json:"id"`
-	Userid int    `json:"userid"`
+	ID         string `json:"id"`
+	Userid     int    `json:"userid"`
+	Followerid int    `json:"followerid"`
 }
 
 type Image struct {
@@ -37,6 +51,7 @@ type Message struct {
 	Fromuser  *User   `json:"fromuser"`
 	Message   string  `json:"message"`
 	Image     *string `json:"image"`
+	Video     *string `json:"video"`
 }
 
 type Post struct {
@@ -65,6 +80,12 @@ type Save struct {
 	Useremail string `json:"useremail"`
 }
 
+type Searchhistory struct {
+	ID    string `json:"id"`
+	Word  string `json:"word"`
+	Email string `json:"email"`
+}
+
 type Story struct {
 	ID      string  `json:"id"`
 	Userid  int     `json:"userid"`
@@ -75,13 +96,24 @@ type Story struct {
 }
 
 type User struct {
-	ID       string  `json:"id"`
-	Name     string  `json:"name"`
-	Username string  `json:"username"`
-	Bio      *string `json:"bio"`
-	Email    string  `json:"email"`
-	Password string  `json:"password"`
-	Verified *bool   `json:"verified"`
-	Google   *bool   `json:"google"`
-	Token    *string `json:"token"`
+	ID        string   `json:"id"`
+	Name      string   `json:"name"`
+	Username  string   `json:"username"`
+	Bio       *string  `json:"bio"`
+	Email     string   `json:"email"`
+	Password  string   `json:"password"`
+	Posts     []*Post  `json:"posts"`
+	Follower  []*User  `json:"follower"`
+	Following []*User  `json:"following"`
+	Story     []*Story `json:"story"`
+	Verified  *bool    `json:"verified"`
+	Google    *bool    `json:"google"`
+	Token     *string  `json:"token"`
+}
+
+type Viewedstory struct {
+	ID        string `json:"id"`
+	Storyid   int    `json:"storyid"`
+	Viewed    string `json:"viewed"`
+	Useremail string `json:"useremail"`
 }

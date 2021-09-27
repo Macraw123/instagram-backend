@@ -9,10 +9,10 @@ type User {
     bio:String
     email:String!
     password:String!
-    #following:[User]
-    #follower:[User]
-    #posts: [Post]
-    #story:[Story]
+    posts: [Post]
+    follower:[User]
+    following:[User]
+    story:[Story]
     verified:Boolean
     google:Boolean
     token:String
@@ -30,6 +30,7 @@ type Story{
 type Follower{
     id:ID!
     userid:Int!
+    followerid:Int!
 }
 
 type Post{
@@ -89,12 +90,83 @@ type Message{
     fromuser:User
     message:String!
     image:String
+    video:String
+}
+
+type Viewedstory{
+    id:ID!
+    storyid:Int!
+    viewed:String!
+    useremail:String!
+}
+
+type Searchhistory{
+    id:ID!
+    word:String!
+    email:String!
+}
+
+type Commentlike{
+    id:ID!
+    commentid:Int!
+    useremail:String!
+}
+
+type Chatroom{
+    id:ID!
+    owneremail:String!
+    recipientemail:String!
+    user:User
 }
 
 type Query{
     login(userEmail:String!, password: String!): User
+    sendEmail(userEmail:String!, type: String!): User
+    forgotPassword(userEmail:String!) : User
+    searchUsers(username:String!):[User]
+    comments(postId:Int!):[Comment]
+    stories(userId:Int!):[Story]
+    post(postId:Int!):Post
+    getFollowersById(userId:Int!):[User]
+    getFollowingsById(userId:Int!):[User]
+    getPostById(userId:Int!):[Post]
+    getPictureByPostId(postId:Int!):[Image]
+    getCommentByPostId(postId:Int):[Comment]
+    getStoryByUserId(userid:Int!):[Story]
+    getMainStoryById(userid:Int!):[Story]
+    getMainStoryUserById(userid:Int!):[User]
+    getMyOwnStory(email:String!):[Story]
+    getCommentLike(commentid:Int!):[Commentlike]
+    getSavedPost(email:String!):[Post]
+    getRepliesByCommentId(commentid:Int!):[Reply]
+    getMessageByToEmail(toEmail:String!,fromEmail:String!):[Message]
+    getChatHistory(myEmail:String!):[User]
+    getMyChats(myEmail:String!):[Chatroom]
+    getSearchHistory(email:String!):[Searchhistory]
 }
 
 type Mutation{
-    addUser(User)
+    addUser(userEmail:String!, name:String!, username:String!, password: String!): User
+    changePassword(userEmail: String!, password: String!): User
+    verifiedStatus(userEmail: String!): User
+    addSearchHistory(email:String!,word:String!):User
+    viewStory(storyid:Int!,email:String!):Story
+    addCommentToPost(postId:Int!,userEmail:String!,comment:String!):User
+    likePost(postId:Int!,userEmail:String!):User
+    unlikePost(postId:Int!,userEmail:String!):User
+    savePost(postId:Int!,email:String!):User
+    unsavePost(postId:Int!,email:String!):User
+    addReply(commentId:Int!,userEmail:String!,comment:String!):User
+    deletePostById(postId:Int!):Post
+    updatePostCaption(postId:Int!,caption:String!):Post
+    deleteCommentByCommentId(commentId:Int!):Comment
+    deleteReplyByReplyId(replyId:Int!):Reply
+    sendMessage(toemail:String!,fromemail:String!,created:String!,message:String!,image:String,video:String):Message
+    unsendMessage(id:Int!):Message
+    createChatRoom(owneremail:String!,recipientemail:String!):Chatroom
+    deleteChatRoom(roomId:Int!):Chatroom
+    deleteStoryById(storyId:Int!):Story
+    likeCommentByCommentId(commentid:Int!,email:String!):Commentlike
+    unlikeCommentByCommentId(commentid:Int!,email:String!):Commentlike
+    createPost(caption:String!,image:String!,video:String!,userid:Int!,created:String!) : Post!
 }
